@@ -85,14 +85,23 @@ module OmniAuth
       end
 
       protected
+      # def build_access_token
+      #   params = {
+      #     'client_id' => client.id,
+      #     'client_secret' => client.secret,
+      #     'code' => request.params['code'],
+      #     'grant_type' => 'authorization_code'
+      #   }.merge(token_params.to_hash(symbolize_keys: true))
+      #   client.get_token(params, deep_symbolize(options.auth_token_params))
+      # end
       def build_access_token
-        params = {
-          'client_id' => client.id,
-          'client_secret' => client.secret,
-          'code' => request.params['code'],
-          'grant_type' => 'authorization_code'
-        }.merge(token_params.to_hash(symbolize_keys: true))
-        client.get_token(params, deep_symbolize(options.auth_token_params))
+        # Options supported by `::OAuth2::AccessToken#initialize` and not overridden by `access_token_options`
+        hash = request.params.slice("access_token", "remind_in", "expires_in", "refresh_token", "uid")
+        hash.update(options.access_token_options)
+        ::OAuth2::AccessToken.from_hash(
+          client,
+          hash
+        )
       end
 
     end
