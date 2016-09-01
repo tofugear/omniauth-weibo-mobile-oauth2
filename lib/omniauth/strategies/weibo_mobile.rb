@@ -9,9 +9,6 @@ module OmniAuth
         :token_url      => "/oauth2/access_token",
         :token_method => :post
       }
-      option :token_params, {
-        :parse          => :json
-      }
 
       option :access_token_options, {
         :header_format => 'OAuth %s',
@@ -59,29 +56,6 @@ module OmniAuth
         @raw_info ||= access_token.get("/2/users/show.json", :params => {:uid => @uid}).parsed
       end
 
-      def find_image
-        raw_info[%w(avatar_hd avatar_large profile_image_url).find { |e| raw_info[e].present? }]
-      end
-
-      #url:                 option:   size:
-      #avatar_hd            original  original_size
-      #avatar_large         large     180x180
-      #profile_image_url    middle    50x50
-      #                     small     30x30
-      #default is middle
-      def image_url
-        case options[:image_size].to_sym
-        when :original
-          url = raw_info['avatar_hd']
-        when :large
-          url = raw_info['avatar_large']
-        when :small
-          url = raw_info['avatar_large'].sub('/180/','/30/')
-        else 
-          url = raw_info['profile_image_url']
-        end
-      end
-
       ##
       # You can pass +display+, +with_offical_account+ or +state+ params to the auth request, if
       # you need to set them dynamically. You can also set these options
@@ -107,10 +81,10 @@ module OmniAuth
         self.access_token = build_access_token
         self.access_token = self.access_token.refresh! if self.access_token.expired?
 
-        # Instead of calling super, duplicate the functionlity, but change the provider to 'facebook'.
-        # This is done in order to preserve compatibilty with the regular facebook provider
+        # Instead of calling super, duplicate the functionlity, but change the provider to 'weibo'.
+        # This is done in order to preserve compatibilty with the regular weibo provider
         hash = auth_hash
-        hash[:provider] = "weibo"
+        hash[:provider] = "weibo_mobile"
         self.env['omniauth.auth'] = hash
         call_app!
 
@@ -125,15 +99,7 @@ module OmniAuth
       end
 
       protected
-      # def build_access_token
-      #   params = {
-      #     'client_id' => client.id,
-      #     'client_secret' => client.secret,
-      #     'code' => request.params['code'],
-      #     'grant_type' => 'authorization_code'
-      #   }.merge(token_params.to_hash(symbolize_keys: true))
-      #   client.get_token(params, deep_symbolize(options.auth_token_params))
-      # end
+
       def build_access_token
         # Options supported by `::OAuth2::AccessToken#initialize` and not overridden by `access_token_options`
         hash = request.params.slice("access_token", "expires_at", "refresh_token", "uid")
