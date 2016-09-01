@@ -9,7 +9,7 @@ Read Weibo OAuth2 docs for more details: http://open.weibo.com/wiki/授权机制
 Add to your `Gemfile`:
 
 ```ruby
-gem 'omniauth-weibo-oauth2'
+gem 'omniauth-weibo-oauth2', git: 'git@github.com:tofugear/omniauth-weibo-oauth2.git'
 ```
 
 Then `bundle install`.
@@ -34,7 +34,7 @@ end
 you can set up redirect_uri in `omniauth.rb` as following:
 
 ```ruby
-provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET'],
+provider :weibo_mobile, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET'],
          token_params: {redirect_uri: "http://127.0.0.1:3000/auth/weibo/callback" }
 ```
 
