@@ -16,7 +16,7 @@ Then `bundle install`.
 
 Or install it yourself as:
 
-    $ gem install omniauth-weibo-oauth2
+    $ gem install omniauth-weibo-mobile-oauth2
 
 ## Usage
 
@@ -26,7 +26,7 @@ Here's a quick example, adding the middleware to a Rails app in `config/initiali
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET']
+  provider :weibo_mobile, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET']
 end
 ```
 ## Configuration
