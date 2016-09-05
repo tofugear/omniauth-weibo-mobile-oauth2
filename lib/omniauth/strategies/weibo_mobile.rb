@@ -3,6 +3,9 @@ require "omniauth-oauth2"
 module OmniAuth
   module Strategies
     class WeiboMobile < OmniAuth::Strategies::OAuth2
+      # Give your strategy a name
+      option :name, 'weibo_mobile'
+
       option :client_options, {
         :site           => "https://api.weibo.com",
         :authorize_url  => "/oauth2/authorize",

@@ -1,6 +1,4 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/omniauth-weibo-oauth2/version', __FILE__)
-
 Gem::Specification.new do |gem|
   gem.authors       = "Bin He"
   gem.email         = "beenhero@gmail.com"
@@ -13,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.name          = "omniauth-weibo-mobile-oauth2"
   gem.require_paths = ["lib"]
-  gem.version       = OmniAuth::WeiboOauth2::VERSION
+  gem.version       = File.read(File.expand_path('../VERSION', __FILE__)).strip
 
   gem.add_dependency 'omniauth', '~> 1.0'
   gem.add_dependency 'omniauth-oauth2', '~> 1.0'
